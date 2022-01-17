@@ -13,6 +13,28 @@ class NotesController extends Controller
         $listaNotes = DB::table('tbl_notes')->get();
         return view('mostrar', compact('listaNotes'));
     }
+
+    public function mostrarNotesAjax(){
+        $listaNotes = DB::table('tbl_notes')->get();
+        return response()->json($listaNotes);
+    }
+
+    /*Crear*/
+
+    /*Actualizar*/
+
+    /*Eliminar*/
+    public function eliminarNotes(Request $request){
+        $datos = $request->except('_token');
+        $id = $datos['id'];
+        try {
+            DB::table('tbl_hotel')->where('id','=',$id)->delete();
+            //return redirect()->route('clientes.index');
+            return response()->json(array('resultado'=> 'OK'));
+        } catch (\Throwable $th) {
+            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+        }
+    }
     /**
      * Display a listing of the resource.
      *

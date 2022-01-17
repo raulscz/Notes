@@ -14,4 +14,14 @@ use App\Http\Controllers\NotesController;
 |
 */
 
+/*Mostrar*/
 Route::get('/mostrar', [NotesController::class, 'mostrarNotes']);
+
+Route::get('/shows', [NotesController::class, 'mostrarNotesAjax']);
+
+/*Crear*/
+
+/*Actualizar*/
+
+/*Eliminar*/
+Route::delete('/eliminar/{id}', [NotesController::class, 'eliminarNotes']);

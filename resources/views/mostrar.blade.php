@@ -17,19 +17,11 @@
         <div class="row pb-3">
             <div class="col">
                 {{-- Buscador (filtro) --}}
-                <form method="post">
+                <form method="post" submit="return false;">
                     <input type="hidden" name="_method" value="POST" id="postFiltro">
                     <div class="form-outline">
-                        <input type="search" id="search" name="nombre" class="form-control" placeholder="Buscar por nombre..." aria-label="Search" onkeyup="filtro(); return false;" />
+                        <input type="search" id="search" name="nombre" class="form-control" placeholder="Buscar por titulo..." aria-label="Search" onkeyup="filtro(); return false;" />
                     </div>
-                </form>
-            </div>
-            <div class="col">
-                {{-- Route::get('/clientes/create',[ClienteController::class,'create'])->name('clientes.create'); --}}
-                <form action="{{route('clientes.create')}}" method="post">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="_method" value="GET">
-                    <input type="submit" class="btn btn-primary" value="Nuevo cliente">
                 </form>
             </div>
             <div class="col"></div>
@@ -40,33 +32,28 @@
         <table class="table" id="table">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Ocupación</th>
-                <th scope="col">Teléfono</th>
-                <th scope="col">Sitio Web</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Descripción</th>
                 <th scope="col" colspan="2">Acciones</th>
             </tr>
-            @forelse ($clientes as $cliente)
+            @forelse ($listaNotes as $resultado)
             <tr>
-                <td scope="row">{{$cliente->id}}</td>
-                <td>{{$cliente->nombre}}</td>
-                <td>{{$cliente->ocupacion}}</td>
-                <td>{{$cliente->telefono}}</td>
-                <td>{{$cliente->website}}</td>
+                <td scope="row">{{$resultado->id}}</td>
+                <td>{{$resultado->titulo_notes}}</td>
+                <td>{{$resultado->desc_notes}}</td>
                 <td>
-                    {{-- Route::get('/clientes/{cliente}/edit',[ClienteController::class,'edit'])->name('clientes.edit'); --}}
-                    <form action="{{route('clientes.edit',['cliente'=>$cliente->id])}}" method="post">
+                {{-- Editar --}}
+                    <form action="" method="post">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="GET">
-                        <button class= "btn btn-secondary" type="submit" value="Edit">Editar</button>
+                        <button class= "botonAct" type="submit" value="Edit">Editar</button>
                     </form>
                 </td>
                 <td>
-                    {{-- Route::delete('/clientes/{cliente}',[ClienteController::class,'destroy'])->name('clientes.destroy'); --}}
-                    {{-- Eliminar cliente --}}
+                    {{-- Eliminar --}}
                     <form method="post">
-                        <input type="hidden" name="_method" value="DELETE" id="deleteCliente">
-                        <button class= "btn btn-danger" type="submit" value="Delete" onclick="eliminar({{$cliente->id}}); return false;">Eliminar</button>
+                        <input type="hidden" name="_method" value="DELETE" id="deleteNotes">
+                        <button class= "botonEli" type="submit" value="Delete" onclick="eliminar({{$resultado->id}}); return false;">Eliminar</button>
                     </form>
                 </td>
             </tr>
@@ -74,6 +61,28 @@
             <tr><td colspan="7">No hay registros</td></tr>
             @endforelse
         </table>
+        <div class="col">
+            <form method="post">
+                <input type="hidden" name="_method" value="POST" id="postCrear">
+                <div class="form-group">
+                    <p>Titulo:</p>
+                    <div>
+                        <input class="inputcrear" type="text" name="titulo_notes" placeholder="Introduce el titulo...">
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <p>Descripción:</p>
+                    <div>
+                        <input class="inputcrear" type="text" name="desc_notes" placeholder="Introduce la descripción...">
+                    </div>
+                </div>
+                <br>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="_method" value="GET">
+                <input type="submit" class="botoncrear" value="Crear">
+            </form>
+        </div>
     </div>
 </body>
 </html>
