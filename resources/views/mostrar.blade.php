@@ -29,6 +29,7 @@
         <div id="message">
 
         </div>
+        <br>
         <table class="table" id="table">
             <tr>
                 <th scope="col">#</th>
@@ -43,12 +44,12 @@
                 <td>{{$resultado->desc_notes}}</td>
                 <td>
                 {{-- Editar --}}
-                    <form action="" method="post">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="_method" value="GET">
-                        <button class= "botonAct" type="submit" value="Edit">Editar</button>
+                    <form method="post" onsubmit="return false;">
+                        <input type="hidden" name="_method" value="PUT" id="modificarNotes">
+                        <button onclick="openModal({{$resultado->id}},'{{$resultado->titulo_notes}}','{{$resultado->desc_notes}}');" class= "botonAct" type="submit" value="Edit">Editar</button>
                     </form>
                 </td>
+                
                 <td>
                     {{-- Eliminar --}}
                     <form method="post">
@@ -67,22 +68,40 @@
                 <div class="form-group">
                     <p>Titulo:</p>
                     <div>
-                        <input class="inputcrear" type="text" name="titulo_notes" placeholder="Introduce el titulo...">
+                        <input class="inputcrear" id ="titulo_notes" type="text" name="titulo_notes" placeholder="Introduce el titulo...">
                     </div>
                 </div>
                 <br>
                 <div class="form-group">
                     <p>Descripción:</p>
                     <div>
-                        <input class="inputcrear" type="text" name="desc_notes" placeholder="Introduce la descripción...">
+                        <input class="inputcrear" id="desc_notes" type="text" name="desc_notes" placeholder="Introduce la descripción...">
                     </div>
                 </div>
                 <br>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="_method" value="GET">
-                <input type="submit" class="botoncrear" value="Crear">
+                <input type="submit" class="botoncrear" value="Crear" onclick="crear(); return false;">
             </form>
         </div>
     </div>
+
+    <!-- The Modal -->
+        <div id="myModal" class="modal">
+            
+    <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form onsubmit="modificar(); return false;">
+                    <p>Titulo<p>
+                    <input type="text" id="tNotes" name="titulo_notes" class="inputlogin">
+                    <p>Descripción<p>
+                    <input type="text" id="dNotes" name="desc_notes" class="inputlogin">
+                    <div>
+                        <input type="hidden" name="_method" value="PUT" id="actuNotes">
+                        <input type="hidden" name="idRegis" id="idRegis">
+                        <button class= "botonModal" type="submit" value="Delete">Modificar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 </body>
 </html>

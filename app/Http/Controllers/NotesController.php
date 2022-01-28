@@ -14,21 +14,35 @@ class NotesController extends Controller
         return view('mostrar', compact('listaNotes'));
     }
 
-    public function mostrarNotesAjax(){
-        $listaNotes = DB::table('tbl_notes')->get();
+    public function filtrarNotesAjax(Request $request){
+        $listaNotes = DB::select('select * from tbl_notes where titulo_notes like ?',['%'.$request->input('nombre').'%']);
         return response()->json($listaNotes);
     }
 
     /*Crear*/
+    public function crearNotes(Request $request){
+        try{
+            DB::insert('insert into tbl_notes (titulo_notes, desc_notes) values (?,?)',[$request->input('titulo_notes'),$request->input('desc_notes')]);
+            return response()->json(array('resultado'=> 'OK'));
+        }catch(\Throwable $th){
+            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+        }
+    }
 
     /*Actualizar*/
+    public function modificarNotes(Request $request){
+        try{
+            DB::update('update tbl_notes set titulo_notes=?, desc_notes=? where id=?',[$request->input('titulo_notes'),$request->input('desc_notes'),$request->input('idRegis')]);
+            return response()->json(array('resultado'=> 'OK'));
+        }catch(\Throwable $th){
+            return response()->json(array('resultado'=> 'NOK: '.$th->getMessage()));
+        }
+    }
 
     /*Eliminar*/
-    public function eliminarNotes(Request $request){
-        $datos = $request->except('_token');
-        $id = $datos['id'];
+    public function eliminarNotes($id){
         try {
-            DB::table('tbl_hotel')->where('id','=',$id)->delete();
+            DB::delete('delete from tbl_notes where id=?',[$id]);
             //return redirect()->route('clientes.index');
             return response()->json(array('resultado'=> 'OK'));
         } catch (\Throwable $th) {
